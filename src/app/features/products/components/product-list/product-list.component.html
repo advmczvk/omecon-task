@@ -1,0 +1,73 @@
+<div class="flex md:flex-row flex-col justify-between">
+  <h1 class="my-2 text-lg">Products list</h1>
+  <div class="flex gap-2">
+    <input
+      #search
+      (input)="onSearch(search.value)"
+      class="my-2"
+      placeholder="Search..."
+      type="text" />
+    <select #stock (change)="onStockSelected(stock.value)" class="my-2">
+      <option [value]="StockEnum.ALL_STOCK">All</option>
+      <option [value]="StockEnum.IN_STOCK">In stock</option>
+      <option [value]="StockEnum.LOW_STOCK">Low stock</option>
+      <option [value]="StockEnum.ALMOST_OUT_OF_STOCK">
+        Almost out of stock
+      </option>
+      <option [value]="StockEnum.OUT_OF_STOCK">Out of stock</option>
+    </select>
+  </div>
+</div>
+@if (page$ | async; as products) {
+  <div
+    class="container mx-auto px-0 w-full flex flex-col gap-2 justify-center border border-neutral-border rounded-sm overflow-x-scroll">
+    @if (products.length > 0) {
+      <table class="mt-2">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        @for (product of products; track $index) {
+          <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price | currency }}</td>
+            <td>{{ product.stock | stock }}</td>
+          </tr>
+        }
+      </table>
+      <div class="flex justify-end mb-2 mx-2 gap-2">
+        @if (totalPages$ | async; as total) {
+          <button
+            (click)="prev()"
+            [disabled]="(pageState$ | async)!.page === 1">
+            <
+          </button>
+          @for (i of [].constructor(total); track $index) {
+            <button
+              (click)="goToPage($index + 1)"
+              [disabled]="(pageState$ | async)!.page === $index + 1"
+              [class.active]="(pageState$ | async)!.page === $index + 1">
+              {{ $index + 1 }}
+            </button>
+          }
+          <button
+            (click)="next()"
+            [disabled]="(pageState$ | async)!.page === total">
+            >
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="text-center text-gray-500 p-4">
+        <p>No products found.</p>
+      </div>
+    }
+  </div>
+} @else {
+  <app-spinner class="mx-auto"></app-spinner>
+}

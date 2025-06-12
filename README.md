@@ -1,13 +1,40 @@
 # OmeconTask
 
+### Description
+
+Build an app that allows user to display a list of products:
+
+- [x] Fetching products from mock API
+- [x] Filtering and pagination of products using RxJS
+- [x] RWD using Angular Material or Tailwind CSS
+- [ ] Unit tests (Jest)
+- [ ] E2E tests (Cypress) **OPTIONAL**
+- [x] README file with instructions on how to run the app
+- [x] npm run [lint, test, build, e2e] commands
+- [ ] CI/CD pipeline with GitHub Actions
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.2.
+
+## Initial Setup
+
+Using Node Version Manager install the required Node.js version:
+
+```bash
+nvm use
+```
+
+Install all dependencies with npm:
+
+```bash
+npm install
+```
 
 ## Development server
 
 To start a local development server, run:
 
 ```bash
-ng serve
+npm run start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -31,17 +58,17 @@ ng generate --help
 To build the project run:
 
 ```bash
-ng build
+npm run build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
 ## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To execute unit tests with the Jest test runner, use the following command:
 
 ```bash
-ng test
+npm run test
 ```
 
 ## Running end-to-end tests
@@ -49,7 +76,7 @@ ng test
 For end-to-end (e2e) testing, run:
 
 ```bash
-ng e2e
+npm run e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
