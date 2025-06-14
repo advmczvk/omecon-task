@@ -7,11 +7,11 @@ Build an app that allows user to display a list of products:
 - [x] Fetching products from mock API
 - [x] Filtering and pagination of products using RxJS
 - [x] RWD using Angular Material or Tailwind CSS
-- [ ] Unit tests (Jest)
+- [x] Unit tests (Jest)
 - [ ] E2E tests (Cypress) **OPTIONAL**
 - [x] README file with instructions on how to run the app
 - [x] npm run [lint, test, build, e2e] commands
-- [ ] CI/CD pipeline with GitHub Actions
+- [x] CI/CD pipeline with GitHub Actions
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.2.
 
@@ -80,6 +80,10 @@ npm run e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## CI/CD Pipeline
+
+This project includes a CI/CD pipeline configured with GitHub Actions. The pipeline is defined in the `.github/workflows/ci.yml` file. It runs tests and checks code quality on every push to the **main** branch and on pull requests.
 
 ## Additional Resources
 
