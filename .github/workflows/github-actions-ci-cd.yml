@@ -14,13 +14,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Get node version from nvm
-        run: nvmrc=$(cat .nvmrc)
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        id: nvm
         
-      - name: Use Node ${{ matrix.node-version }}
+      - name: Use Node (.nvmrc)
         uses: actions/setup-node@v4
         with:
-          node-version: ${nvmrc}
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
           cache: 'npm'
 
       - name: Clean install dependencies
