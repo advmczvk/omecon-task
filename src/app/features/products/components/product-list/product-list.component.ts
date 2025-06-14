@@ -13,7 +13,7 @@ import {
   Observable,
   shareReplay,
 } from 'rxjs';
-import { StockPipe } from '@shared/pipes/stock.pipe';
+import { StockPipe } from '@shared/pipes/stock/stock.pipe';
 import { SpinnerComponent } from '@shared/components/spinner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StockEnum } from '@shared/enums/stock.enum';
@@ -36,10 +36,10 @@ import { stockCalculator } from '@shared/util/stock-calculator';
 export class ProductList implements OnChanges {
   @Input({ required: true }) products$!: Observable<Product[]>;
 
-  // Pagination handling
   readonly pageState$ = new BehaviorSubject({ page: 1, size: 5 });
   readonly search$ = new BehaviorSubject<string>('');
   readonly stock$ = new BehaviorSubject<StockEnum>(StockEnum.ALL_STOCK);
+
   page$!: Observable<Product[]>;
   totalPages$!: Observable<number>;
   filtered$!: Observable<Product[]>;
@@ -105,11 +105,11 @@ export class ProductList implements OnChanges {
     this.pageState$.next({ page: 1, size });
   }
 
-  private bump(delta: number): void {
+  private bump(step: number): void {
     const { page, size } = this.pageState$.value;
     this.totalPages$
       .subscribe(total => {
-        const newPage = Math.min(Math.max(1, page + delta), total);
+        const newPage = Math.min(Math.max(1, page + step), total);
         this.pageState$.next({ page: newPage, size });
       })
       .unsubscribe();

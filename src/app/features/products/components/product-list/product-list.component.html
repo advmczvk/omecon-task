@@ -1,5 +1,5 @@
 <div class="flex md:flex-row flex-col justify-between">
-  <h1 class="my-2 text-lg">Products list</h1>
+  <h1 class="my-2 text-lg">ProductsComponent list</h1>
   <div class="flex gap-2">
     <input
       #search
@@ -32,7 +32,7 @@
           </tr>
         </thead>
         @for (product of products; track $index) {
-          <tr>
+          <tr data-test="product-item">
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.price | currency }}</td>
