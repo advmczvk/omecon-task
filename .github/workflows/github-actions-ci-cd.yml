@@ -10,18 +10,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [ 20.x ]
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Get node version from nvm
+        run: nvmrc=$(cat .nvmrc)
+        
       - name: Use Node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: $nvmrc
           cache: 'npm'
 
       - name: Clean install dependencies
