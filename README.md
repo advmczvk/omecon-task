@@ -79,11 +79,11 @@ For end-to-end (e2e) testing, run:
 npm run e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+E2E tests are implemented using Cypress. Make sure to start the app before running the tests.
 
 ## CI/CD Pipeline
 
-This project includes a CI/CD pipeline configured with GitHub Actions. The pipeline is defined in the `.github/workflows/ci.yml` file. It runs tests and checks code quality on every push to the **main** branch and on pull requests.
+This project includes a CI/CD pipeline configured with GitHub Actions. The pipeline is defined in the `.github/workflows/github-actions-ci-cd.yml` file. It runs tests and checks code quality on every push to the **main** branch and on pull requests.
 
 ## Additional Resources
 
