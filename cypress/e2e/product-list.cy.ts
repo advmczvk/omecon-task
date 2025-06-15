@@ -3,7 +3,7 @@ describe('Product list', () => {
     cy.visit('http://localhost:4200');
     cy.intercept('GET', '/assets/mock/products.json', {
       status: 200,
-      fixture: 'products.json',
+      fixture: 'products-fixture.json',
     }).as('getProducts');
   });
 
@@ -21,12 +21,12 @@ describe('Product list', () => {
 
   describe('product list filtering', () => {
     it('should filter products by search term', () => {
-      cy.get('[data-cy=search-input]').should('be.visible').type('macbook');
+      cy.get('[data-cy=search-input]').should('be.visible').type('product 3');
 
       cy.get('[data-cy=product-item]')
-        .should('have.length', 3)
+        .should('have.length', 5)
         .first()
-        .should('contain.text', 'MacBook Pro 14');
+        .should('contain.text', 'Product 3');
     });
 
     it('should filter products by stock selection', () => {
@@ -40,13 +40,13 @@ describe('Product list', () => {
     });
 
     it('should filter by all available filters', () => {
-      cy.get('[data-cy=search-input]').should('be.visible').type('macbook');
+      cy.get('[data-cy=search-input]').should('be.visible').type('product 3');
       cy.get('[data-cy=stock-select]').should('be.visible').select('In stock');
 
       cy.get('[data-cy=product-item]')
-        .should('have.length', 2)
+        .should('have.length', 1)
         .first()
-        .should('contain.text', 'MacBook Pro 14');
+        .should('contain.text', 'Product 3');
     });
 
     it('should display message when no products are available', () => {
@@ -71,9 +71,9 @@ describe('Product list', () => {
     });
 
     it('should navigate to previous page', () => {
-      cy.get('[data-cy=page-button]').last().click();
+      cy.get('[data-cy=page-button]').contains('5').click();
       cy.get('[data-cy=prev-page-button]').click();
-      cy.get('.active').should('contain.text', '3');
+      cy.get('.active').should('contain.text', '4');
       cy.get('[data-cy=product-item]').should('have.length', 5);
     });
 
@@ -81,6 +81,18 @@ describe('Product list', () => {
       cy.get('[data-cy=page-button]').contains('3').click();
       cy.get('.active').should('contain.text', '3');
       cy.get('[data-cy=product-item]').should('have.length', 5);
+    });
+
+    it('should navigate to the first page', () => {
+      cy.get('[data-cy=page-button]').contains('5').click();
+      cy.get('[data-cy=first-page-button]').click();
+      cy.get('.active').should('contain.text', '1');
+    });
+
+    it('should navigate to the last page', () => {
+      cy.get('[data-cy=page-button]').contains('5').click();
+      cy.get('[data-cy=last-page-button]').click();
+      cy.get('.active').should('contain.text', '8');
     });
   });
 });

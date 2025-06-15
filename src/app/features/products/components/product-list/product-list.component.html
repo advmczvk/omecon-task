@@ -53,16 +53,16 @@
             data-cy="pagination-controls"
             class="flex justify-end mb-2 mx-2 gap-2">
             <button
+              data-cy="first-page-button"
+              (click)="goToPage(1)"
+              [disabled]="(pageState$ | async)!.page === 1">
+              <<
+            </button>
+            <button
               data-cy="prev-page-button"
               (click)="prev()"
               [disabled]="(pageState$ | async)!.page === 1">
               <
-            </button>
-            <button
-              data-cy="prev-page-button"
-              (click)="goToPage(1)"
-              [disabled]="(pageState$ | async)!.page === 1">
-              <<
             </button>
 
             @if (pagination$ | async; as pagination) {
@@ -83,7 +83,7 @@
               >
             </button>
             <button
-              data-cy="prev-page-button"
+              data-cy="last-page-button"
               (click)="goToPage(total)"
               [disabled]="(pageState$ | async)!.page === total">
               >>
