@@ -3,12 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { ProductService } from './product.service';
 import { of } from 'rxjs';
 import { Product } from '@features/products/models/product.model';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('Product', () => {
   let service: ProductService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
     service = TestBed.inject(ProductService);
   });
 

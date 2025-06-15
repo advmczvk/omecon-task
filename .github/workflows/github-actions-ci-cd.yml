@@ -17,7 +17,7 @@ jobs:
       - name: Read .nvmrc
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: nvm
-        
+
       - name: Use Node (.nvmrc)
         uses: actions/setup-node@v4
         with:
@@ -32,3 +32,10 @@ jobs:
 
       - name: Run unit tests
         run: npm run test
+
+      - name: Run Cypress e2e tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+          browser: chrome

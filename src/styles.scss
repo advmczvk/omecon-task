@@ -52,6 +52,10 @@ button {
   &.active {
     @apply bg-blue-600 text-white #{!important};
   }
+
+  &:disabled {
+    @apply border-gray-900 text-gray-900 hover:bg-transparent #{!important};
+  }
 }
 
 html,

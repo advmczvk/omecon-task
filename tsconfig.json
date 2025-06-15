@@ -15,12 +15,14 @@
     "target": "ES2022",
     "module": "preserve",
     "baseUrl": ".",
+    "types": ["cypress", "node"],
     "paths": {
       "@mock/*": ["src/assets/mock/*"],
       "@features/*": ["src/app/features/*"],
       "@shared/*": ["src/app/shared/*"]
     }
   },
+  "include": ["**/*.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
