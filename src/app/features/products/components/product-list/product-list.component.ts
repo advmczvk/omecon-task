@@ -12,6 +12,7 @@ import {
   map,
   Observable,
   shareReplay,
+  startWith,
 } from 'rxjs';
 import { StockPipe } from '@shared/pipes/stock/stock.pipe';
 import { SpinnerComponent } from '@shared/components/spinner.component';
@@ -44,6 +45,8 @@ export class ProductList implements OnChanges {
   totalPages$!: Observable<number>;
   filtered$!: Observable<Product[]>;
 
+  protected loading$!: Observable<boolean>;
+
   protected readonly StockEnum = StockEnum;
 
   ngOnChanges(): void {
@@ -61,6 +64,11 @@ export class ProductList implements OnChanges {
         );
       }),
       shareReplay(1)
+    );
+
+    this.loading$ = this.filtered$.pipe(
+      map(() => false),
+      startWith(true)
     );
 
     this.page$ = combineLatest([this.filtered$, this.pageState$]).pipe(
@@ -89,11 +97,17 @@ export class ProductList implements OnChanges {
   }
 
   next(): void {
-    this.bump(+1);
+    this.pageState$.next({
+      ...this.pageState$.value,
+      page: this.pageState$.value.page + 1,
+    });
   }
 
   prev(): void {
-    this.bump(-1);
+    this.pageState$.next({
+      ...this.pageState$.value,
+      page: this.pageState$.value.page - 1,
+    });
   }
 
   goToPage(n: number): void {
@@ -103,15 +117,5 @@ export class ProductList implements OnChanges {
   private resetPage(): void {
     const { size } = this.pageState$.value;
     this.pageState$.next({ page: 1, size });
-  }
-
-  private bump(step: number): void {
-    const { page, size } = this.pageState$.value;
-    this.totalPages$
-      .subscribe(total => {
-        const newPage = Math.min(Math.max(1, page + step), total);
-        this.pageState$.next({ page: newPage, size });
-      })
-      .unsubscribe();
   }
 }
