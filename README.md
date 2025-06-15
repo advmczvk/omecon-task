@@ -8,7 +8,7 @@ Build an app that allows user to display a list of products:
 - [x] Filtering and pagination of products using RxJS
 - [x] RWD using Angular Material or Tailwind CSS
 - [x] Unit tests (Jest)
-- [ ] E2E tests (Cypress) **OPTIONAL**
+- [x] E2E tests (Cypress) **OPTIONAL**
 - [x] README file with instructions on how to run the app
 - [x] npm run [lint, test, build, e2e] commands
 - [x] CI/CD pipeline with GitHub Actions
