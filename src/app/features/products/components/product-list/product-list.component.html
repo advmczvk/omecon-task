@@ -27,17 +27,17 @@
   <app-spinner class="mx-auto"></app-spinner>
 } @else {
   <div
-    class="container mx-auto px-0 w-full flex flex-col gap-2 justify-center border border-neutral-border rounded-sm overflow-x-scroll">
+    class="container mx-auto px-0 w-full flex flex-col gap-2 justify-center border border-neutral-border rounded-sm overflow-x-auto">
     @if (page$ | async; as products) {
       @if (products.length > 0) {
         <table class="mt-2">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Stock</th>
-            </tr>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+          </tr>
           </thead>
           @for (product of products; track $index) {
             <tr data-cy="product-item">
@@ -58,19 +58,35 @@
               [disabled]="(pageState$ | async)!.page === 1">
               <
             </button>
-            @for (i of [].constructor(total); track $index) {
-              <button
-                data-cy="page-button"
-                (click)="goToPage($index + 1)"
-                [class.active]="(pageState$ | async)!.page === $index + 1">
-                {{ $index + 1 }}
-              </button>
+            <button
+              data-cy="prev-page-button"
+              (click)="goToPage(1)"
+              [disabled]="(pageState$ | async)!.page === 1">
+              <<
+            </button>
+
+            @if (pagination$ | async; as pagination) {
+              @for (i of pagination; track $index) {
+                <button
+                  data-cy="page-button"
+                  (click)="goToPage(i)"
+                  [class.active]="(pageState$ | async)!.page === i">
+                  {{ i }}
+                </button>
+              }
             }
+
             <button
               data-cy="next-page-button"
               (click)="next()"
               [disabled]="(pageState$ | async)!.page === total">
               >
+            </button>
+            <button
+              data-cy="prev-page-button"
+              (click)="goToPage(total)"
+              [disabled]="(pageState$ | async)!.page === total">
+              >>
             </button>
           </div>
         }
