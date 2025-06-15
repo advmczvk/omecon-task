@@ -1,10 +1,12 @@
 describe('Product list', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:4200');
     cy.intercept('GET', '/assets/mock/products.json', {
       status: 200,
       fixture: 'products-fixture.json',
     }).as('getProducts');
+    cy.visit('http://localhost:4200');
+
+    cy.wait('@getProducts');
   });
 
   describe('product list UI', () => {
