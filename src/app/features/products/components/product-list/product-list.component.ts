@@ -37,13 +37,17 @@ import { stockCalculator } from '@shared/util/stock-calculator';
 export class ProductList implements OnChanges {
   @Input({ required: true }) products$!: Observable<Product[]>;
 
-  readonly pageState$ = new BehaviorSubject({ page: 1, size: 5 });
+  readonly pageState$ = new BehaviorSubject({
+    page: 1,
+    size: 5,
+  });
   readonly search$ = new BehaviorSubject<string>('');
   readonly stock$ = new BehaviorSubject<StockEnum>(StockEnum.ALL_STOCK);
 
   page$!: Observable<Product[]>;
   totalPages$!: Observable<number>;
   filtered$!: Observable<Product[]>;
+  pagination$!: Observable<number[]>;
 
   protected loading$!: Observable<boolean>;
 
@@ -79,10 +83,28 @@ export class ProductList implements OnChanges {
     );
 
     this.totalPages$ = combineLatest([this.filtered$, this.pageState$]).pipe(
-      map(([products, { size }]) => {
-        return Math.max(1, Math.ceil(products.length / size));
-      }),
+      map(([products, { size }]) =>
+        Math.max(1, Math.ceil(products.length / size))
+      ),
       shareReplay(1)
+    );
+
+    this.pagination$ = combineLatest([this.totalPages$, this.pageState$]).pipe(
+      map(([total, { page }]) => {
+        if (total <= 5) {
+          return Array.from({ length: total }, (_, i) => i + 1);
+        }
+
+        if (page <= 3) {
+          return [1, 2, 3, 4, 5];
+        }
+
+        if (page >= total - 2) {
+          return Array.from({ length: 5 }, (_, i) => total - 4 + i);
+        }
+
+        return [page - 2, page - 1, page, page + 1, page + 2];
+      })
     );
   }
 
@@ -111,11 +133,17 @@ export class ProductList implements OnChanges {
   }
 
   goToPage(n: number): void {
-    this.pageState$.next({ ...this.pageState$.value, page: n });
+    this.pageState$.next({
+      ...this.pageState$.value,
+      page: n,
+    });
   }
 
   private resetPage(): void {
     const { size } = this.pageState$.value;
-    this.pageState$.next({ page: 1, size });
+    this.pageState$.next({
+      page: 1,
+      size,
+    });
   }
 }
